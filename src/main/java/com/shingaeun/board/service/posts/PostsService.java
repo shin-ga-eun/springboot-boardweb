@@ -2,6 +2,7 @@ package com.shingaeun.board.service.posts;
 
 import com.shingaeun.board.domain.posts.Posts;
 import com.shingaeun.board.domain.posts.PostsRepository;
+import com.shingaeun.board.web.dto.PostsResponseDto;
 import com.shingaeun.board.web.dto.PostsSaveRequestDto;
 import com.shingaeun.board.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,13 @@ public class PostsService {
         posts.update(requestDto.getTitle(), requestDto.getContent());
 
         return id;
+    }
+
+    public PostsResponseDto findById(Long id){
+        Posts entity = postsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
+
+        return new PostsResponseDto(entity);
     }
 
 

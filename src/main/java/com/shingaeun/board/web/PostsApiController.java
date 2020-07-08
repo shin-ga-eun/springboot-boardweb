@@ -1,6 +1,7 @@
 package com.shingaeun.board.web;
 
 import com.shingaeun.board.service.posts.PostsService;
+import com.shingaeun.board.web.dto.PostsResponseDto;
 import com.shingaeun.board.web.dto.PostsSaveRequestDto;
 import com.shingaeun.board.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,8 @@ public class PostsApiController {
         return postsService.update(id, requestDto);
     }
 
-//    @GetMapping("/api/v1/posts")
-//    public
+    @GetMapping("/api/v1/posts/{id}")
+    public PostsResponseDto findById (@PathVariable Long id){
+        return postsService.findById(id);
+    }
 }
