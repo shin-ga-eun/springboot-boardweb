@@ -11,7 +11,7 @@ echo "> 현재 구동 중인 애플리케이션 pid 확인"
 
 #CURRENT_PID=$(pgrep -fl ${PROJECT_NAME} | grep jar | awk '{print $1}')
 
-CURRENT_PID=$(pgrep -f $PROJECT_NAME.*.jar)
+CURRENT_PID=$(pgrep -f $PROJECT_NAME*.jar)
 
 echo "현재 구동 중인 애플리케이션 pid: $CURRENT_PID"
 #
@@ -23,9 +23,7 @@ echo "현재 구동 중인 애플리케이션 pid: $CURRENT_PID"
 #        sleep 5
 #fi
 
-#kill -9 $CURRENT_PID
-
-kill -9 $REPOSIORY/*.jar
+kill -15 $CURRENT_PID
 
 echo ">pid 죽임"
 
