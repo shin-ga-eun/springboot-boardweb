@@ -9,11 +9,7 @@ cp $REPOSITORY/zip/*.jar $REPOSITORY/
 
 echo "> 현재 구동 중인 애플리케이션 pid 확인"
 
-#CURRENT_PID=$(pgrep -fl springboot-boardweb | grep jar | awk '{print $1}')
-
-echo "> 변수 PROJECT_NAME을 출력해보자: $PROJECT_NAME"
-
-echo "> 프로젝트가 사용하고 있는 pid를 찾아보자."
+#CURRENT_PID=$(pgrep -fl ${PROJECT_NAME} | grep jar | awk '{print $1}')
 
 CURRENT_PID=$(pgrep -f $PROJECT_NAME.*.jar)
 
@@ -27,9 +23,9 @@ echo "현재 구동 중인 애플리케이션 pid: $CURRENT_PID"
 #        sleep 5
 #fi
 
-kill -9 $CURRENT_PID
+#kill -9 $CURRENT_PID
 
-#kill -9 $REPOSIORY/*.jar
+kill -9 $REPOSIORY/*.jar
 
 echo ">pid 죽임"
 
