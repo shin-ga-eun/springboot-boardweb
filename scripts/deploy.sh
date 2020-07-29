@@ -11,17 +11,22 @@ echo "> 현재 구동 중인 애플리케이션 pid 확인"
 
 #CURRENT_PID=$(pgrep -fl springboot-boardweb | grep jar | awk '{print $1}')
 
-CURRENT_PID=$(pgrep -f ${PROJECT_NAME}.*.jar)
+CURRENT_PID=$(pgrep -f $PROJECT_NAME.*.jar)
 
 echo "현재 구동 중인 애플리케이션 pid: $CURRENT_PID"
+#
+#if [ -f "$CURRENT_PID" ]; then
+#        echo "> 현재 실 중인 애플리케이션이 없으므로 종료하지 않습니다."
+#else
+#        echo "> kill -15 $CURRENT_PID"
+#        kill -15 $CURRENT_PID
+#        sleep 5
+#fi
 
-if [ -z "$CURRENT_PID" ]; then
-        echo "> 현재 수동 중인 애플리케이션이 없으므로 종료하지 않습니다."
-else
-        echo "> kill -15 $CURRENT_PID"
-        kill -15 $CURRENT_PID
-        sleep 5
-fi
+kill -9 $CURRENT_PID
+
+echo ">pid 죽임"
+
 
 echo "> 새 애플리케이션 배포"
 
@@ -35,6 +40,6 @@ chmod +x $JAR_NAME
 
 echo "> $JAR_NAME 실행"
 
-nohup java -jar -Dspring.config.location=classpath:/application.properties,classpath:/application-real.properties,/home/ec2-user/app/application-real-db.properties -Dspring.profiles.active=real $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
+nohup java -jar -Dspring.config.location=classpath:/application.properties,classpath:/application-real.properties,/home/ec2-user/app/application-real-db.properties -Dspring.profiles.active=real $JAR_NAME > $REPOSIORY/nohup.out 2>&1 &
 
 echo "> nohup 실행 다음 문장"
