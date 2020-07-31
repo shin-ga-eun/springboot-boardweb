@@ -14,9 +14,9 @@ function  find_idle_profile()
 
   if[ ${CURRENT_PROFILE} == real1 ]
   then
-    IDLE_CURRENT_PROFILE=reql2
+    IDLE_CURRENT_PROFILE=real2
   else
-    IDLE_CURRENT_PROFILE=reql1
+    IDLE_CURRENT_PROFILE=real1
   fi
 
   echo "${IDLE_PROFILE}"
