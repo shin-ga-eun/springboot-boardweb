@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
 ABSPATH=$(readlink -f $0)
-ABSDIR=$(dirname $ABSPATH)
+ABSDIR=$(dirname "$ABSPATH")
+# shellcheck disable=SC1090
+# shellcheck disable=SC2086
 source ${ABSDIR}/profile.sh
-source ${ABSDIR}/switch.sh
+# shellcheck disable=SC1090
+source "${ABSDIR}"/switch.sh
 
 IDLE_PORT=$(find_idle_port)
 
@@ -14,10 +17,12 @@ sleep 10
 
 for RETRY_COUNT in {1..10}
 do
-  RESPONSE=$(curl -s http://localhost:${IDLE_PORT}/profile)
+  RESPONSE=$(curl -s http://localhost:"${IDLE_PORT}"/profile)
+  # shellcheck disable=SC2086
+  # shellcheck disable=SC2126
   UP_COUNT=$(echo ${RESPONSE} | grep 'real' | wc -l)
 
-  if [ ${UP_COUNT} -ge 1 ]
+  if [ "${UP_COUNT}" -ge 1 ]
   then # $up_count >= 1 ("real" 문자열이 있는지 검증)
       echo "> Health check 성공"
       switch_proxy
