@@ -1,36 +1,43 @@
 #!/usr/bin/env bash
 
-# 쉬고 있는 profile 찾기: real1이 사용 중이면 real2가 쉬고 있고, 반대면 real1이 쉬고 있음
-
-function find_idle_profile()
+# 쉬고 있는 profile (IDLE_PROFILE) 찾는 함수
+function find_idle_profile ()
 {
-  RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/profile)
-  if [ ${RESPONSE_CODE} -ge 400 ] #400 보다 크면 (즉, 40x/50x 에러 모두 포함)
-  then
-    CURRENT_PROFILE=real2
-  else
-    CURRENT_PROFILE=$(curl -s http://localhost/profile)
-  fi
+	# 현재 Nginx 가 바라보는 SpringBoot 가 정상 수행 중인지 확인
+	# HttpStatus 값을 받음
+    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/profile)
 
-  if [ ${CURRENT_PROFILE} == real1 ]
-  then
-    IDLE_CURRENT_PROFILE=real2
-  else
-    IDLE_CURRENT_PROFILE=real1
-  fi
+	# 오류 코드가 400 이상이면 예외로 보고 real2 를 profile 로 사용
+    if [ ${RESPONSE_CODE} -ge 400 ]
+    then
+      CURRENT_PROFILE=real2
+    else
+      CURRENT_PROFILE=$(curl -s http://localhost/profile )
+    fi
 
-  echo "${IDLE_PROFILE}"
+    if [ ${CURRENT_PROFILE } == real1 ]
+    then
+      IDLE_PROFILE=real2
+    else
+      IDLE_PROFILE=real1
+    fi
+
+	# bash 에서는 함수 값을 return 하는 기능 없음,
+	# echo 로 출력되는 값을 클라이언트에서 잡아서 사용
+	# 그래서 중간에 echo 있으면 안됨
+    echo "${IDLE_PROFILE}"
+    echo "HttpStatus in profile : $RESPONSE_CODE, IDLE_PROFILE in profile : $IDLE_PROFILE"
 }
 
-#쉬고 있는 profile의 port 찾기
-function  find_idle_port()
+# 쉬고 있는 profile 의 port 찾는 함수
+function find_idle_port()
 {
-  IDLE_PROFILE= $find_idle_profile
+    IDLE_PROFILE=$(find_idle_profile)
 
-  if [ "${IDLE_PROFILE}" == real1 ]
-  then
-    echo "8081"
-  else
-    echo "8082"
-  fi
+    if [ ${IDLE_PROFILE} == real1 ]
+    then
+      echo "8081"
+    else
+      echo "8082"
+    fi
 }
