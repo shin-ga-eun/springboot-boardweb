@@ -15,7 +15,7 @@ function find_idle_profile ()
       CURRENT_PROFILE=$(curl -s http://localhost/profile )
     fi
 
-    if [ ${CURRENT_PROFILE } == real1 ]
+    if [ ${CURRENT_PROFILE} == real1 ]
     then
       IDLE_PROFILE=real2
     else
@@ -26,7 +26,6 @@ function find_idle_profile ()
 	# echo 로 출력되는 값을 클라이언트에서 잡아서 사용
 	# 그래서 중간에 echo 있으면 안됨
     echo "${IDLE_PROFILE}"
-    echo "HttpStatus in profile : $RESPONSE_CODE, IDLE_PROFILE in profile : $IDLE_PROFILE"
 }
 
 # 쉬고 있는 profile 의 port 찾는 함수
