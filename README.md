@@ -1,7 +1,7 @@
 # springboot-board
 spring boot study
 
-## 공부내용(계속 업데이트 예정)
+## 공부내용
 💻👊🏻 https://shin-bugkiller.tistory.com/
 
 ## 참고
